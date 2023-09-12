@@ -4,13 +4,24 @@ const UpdateUser = async (req, res) => {
   const { name, age, gender, dob, mobile } = req.body;
 
   try {
-    const user = await UserModel.findByIdAndUpdate(req.userId, {
-      name,
-      age,
-      gender,
-      dob,
-      mobile,
-    });
+    let data = {};
+    if (name) {
+      data.name = name;
+    }
+    if (age) {
+      data.age = age;
+    }
+    if (gender) {
+      data.gender = gender;
+    }
+    if (dob) {
+      data.dob = dob;
+    }
+    if (mobile) {
+      data.mobile = mobile;
+    }
+
+    const user = await UserModel.findByIdAndUpdate(req.userId, data);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -41,5 +52,5 @@ const getUserDetails = async (req, res) => {
 
 module.exports = {
   UpdateUser,
-  getUserDetails
+  getUserDetails,
 };

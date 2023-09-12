@@ -19,6 +19,10 @@ app.use(express.json());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", UserRoutes);
 
+app.use("/", (req, res) => {
+  return res.status(200).send("Hello Welcome to Auth API");
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

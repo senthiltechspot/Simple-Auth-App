@@ -47,7 +47,6 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized!" });
     }
-    console.log(decoded)
     req.userId = decoded.userId;
     req.user = decoded;
     next();
@@ -56,5 +55,5 @@ const verifyToken = (req, res, next) => {
 module.exports = {
   ValidateAuthLogin,
   ValidateAuthRegister,
-  verifyToken
+  verifyToken,
 };

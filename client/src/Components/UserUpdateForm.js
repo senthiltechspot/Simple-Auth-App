@@ -21,14 +21,14 @@ const UserUpdateForm = ({ FetchUserData, userData, handleClose }) => {
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const RoundDay = day < 10 ? `0${day}` : day;
-
-    return `${year}-${month}-${RoundDay}`;
+    const RoundMonth = month < 10 ? `0${month}` : month;
+    return `${year}-${RoundMonth}-${RoundDay}`;
   };
   const [formData, setFormData] = useState({
     name: userData.name || "",
     age: userData.age || "",
     gender: userData.gender || "",
-    dob: GetDate(userData.dob) || "",
+    dob: userData.dob ? GetDate(userData.dob) : "",
     mobile: userData.mobile || "",
   });
 
@@ -42,10 +42,26 @@ const UserUpdateForm = ({ FetchUserData, userData, handleClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    let data = {};
+    if (formData.name) {
+      data.name = formData.name;
+    }
+    if (formData.age) {
+      data.age = formData.age;
+    }
+    if (formData.gender) {
+      data.gender = formData.gender;
+    }
+    if (formData.dob) {
+      data.dob = formData.dob;
+    }
+    if (formData.mobile) {
+      data.mobile = formData.mobile;
+    }
 
     try {
-      await updateUser(formData);
-      FetchUserData();
+      await updateUser(data);
+      await FetchUserData();
       handleClose();
       setIsLoading(false);
     } catch (error) {
@@ -121,7 +137,13 @@ const UserUpdateForm = ({ FetchUserData, userData, handleClose }) => {
           </Button>
         </Grid>
         <Grid item xs={12} className="d-flex justify-content-center">
-          <Button type="submit" variant="outlined" color="primary" fullWidth onClick={handleClose}>
+          <Button
+            type="submit"
+            variant="outlined"
+            color="primary"
+            fullWidth
+            onClick={handleClose}
+          >
             Close
           </Button>
         </Grid>
